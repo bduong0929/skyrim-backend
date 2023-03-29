@@ -1,5 +1,7 @@
 package com.revature.skyrim.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.revature.skyrim.dtos.requests.NewRoleRequest;
@@ -18,5 +20,15 @@ public class RoleService {
     Role role = new Role();
     role.setName(req.getName());
     roleRepository.save(role);
+  }
+
+  public Optional<Role> findRoleByName(String name) {
+    Optional<Role> role = roleRepository.findByName(name);
+
+    if (role.isPresent()) {
+      return role;
+    }
+
+    return Optional.empty();
   }
 }

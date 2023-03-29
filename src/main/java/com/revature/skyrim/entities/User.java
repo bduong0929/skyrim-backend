@@ -1,5 +1,9 @@
 package com.revature.skyrim.entities;
 
+import java.util.Arrays;
+
+import com.revature.skyrim.dtos.requests.NewRegisterRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,13 +24,31 @@ public class User {
   private String username;
 
   @Column(name = "password", nullable = false)
-  private String password;
+  private byte[] password;
+
+  @Column(name = "salt", nullable = false)
+  private byte[] salt;
 
   @ManyToOne
   @JoinColumn(name = "role_id", nullable = false)
   private Role role;
 
   public User() {
+  }
+
+  public User(NewRegisterRequest req, byte[] password, byte[] salt, Role role) {
+    this.username = req.getUsername();
+    this.password = password;
+    this.salt = salt;
+    this.role = role;
+  }
+
+  public User(long id, String username, byte[] password, byte[] salt, Role role) {
+    this.id = id;
+    this.username = username;
+    this.password = password;
+    this.salt = salt;
+    this.role = role;
   }
 
   public long getId() {
@@ -45,12 +67,20 @@ public class User {
     this.username = username;
   }
 
-  public String getPassword() {
+  public byte[] getPassword() {
     return password;
   }
 
-  public void setPassword(String password) {
+  public void setPassword(byte[] password) {
     this.password = password;
+  }
+
+  public byte[] getSalt() {
+    return salt;
+  }
+
+  public void setSalt(byte[] salt) {
+    this.salt = salt;
   }
 
   public Role getRole() {
@@ -63,6 +93,7 @@ public class User {
 
   @Override
   public String toString() {
-    return "User [id=" + id + ", username=" + username + ", password=" + password + ", role=" + role + "]";
+    return "User [id=" + id + ", username=" + username + ", password=" + Arrays.toString(password) + ", salt="
+        + Arrays.toString(salt) + ", role=" + role + "]";
   }
 }
