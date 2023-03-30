@@ -2,8 +2,6 @@ package com.revature.skyrim.entities;
 
 import java.util.Arrays;
 
-import com.revature.skyrim.dtos.requests.NewRegisterRequest;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,8 +34,8 @@ public class User {
   public User() {
   }
 
-  public User(NewRegisterRequest req, byte[] password, byte[] salt, Role role) {
-    this.username = req.getUsername();
+  public User(String username, byte[] password, byte[] salt, Role role) {
+    this.username = username;
     this.password = password;
     this.salt = salt;
     this.role = role;

@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.revature.skyrim.dtos.requests.NewLoginRequest;
 import com.revature.skyrim.dtos.requests.NewRegisterRequest;
 import com.revature.skyrim.dtos.requests.NewRoleRequest;
+import com.revature.skyrim.dtos.responses.Principal;
 import com.revature.skyrim.entities.Role;
 import com.revature.skyrim.entities.User;
 import com.revature.skyrim.repositories.UserRepository;
@@ -34,8 +36,23 @@ public class UserService {
       role = roleService.findRoleByName("DEFAULT");
     }
 
-    User user = new User(req, hashedPassword, generateSalt, role.get());
-    userRepository.save(user);
+    User createdUser = new User(req.getUsername(), hashedPassword, generateSalt, role.get());
+    userRepository.save(createdUser);
+  }
+
+  public Optional<Principal> login(NewLoginRequest req) throws NoSuchAlgorithmException {
+    Optional<User> userOptional = userRepository.findUserByUsername(req.getUsername());
+
+    if (userOptional.isPresent()) {
+      User foundUser = userOptional.get();
+      byte[] actualPassword = securityService.hashingMethod(req.getPassword(), foundUser.getSalt());
+
+      if (securityService.isSamePassword(foundUser.getPassword(), actualPassword)) {
+        return Optional.of(new Principal(foundUser));
+      }
+    }
+
+    return Optional.empty();
   }
 
   public boolean isValidUsername(String username) {
@@ -43,7 +60,7 @@ public class UserService {
   }
 
   public boolean isUniqueUsername(String username) {
-    return userRepository.findUsername(username) == null;
+    return userRepository.findUsernameByUsername(username) == null;
   }
 
   public boolean isValidPassword(String password) {

@@ -42,4 +42,15 @@ public class SecurityService {
     md.update(salt);
     return md.digest(password.getBytes(StandardCharsets.UTF_8));
   }
+
+  /**
+   * Compares two hashed passwords to determine if they are equal.
+   *
+   * @param expected the expected password
+   * @param actual   the actual password
+   * @return true if the passwords are equal, false otherwise
+   */
+  public boolean isSamePassword(byte[] expected, byte[] actual) {
+    return MessageDigest.isEqual(expected, actual);
+  }
 }
