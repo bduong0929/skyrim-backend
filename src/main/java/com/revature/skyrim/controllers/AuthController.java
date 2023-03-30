@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.skyrim.dtos.requests.NewLoginRequest;
 import com.revature.skyrim.dtos.requests.NewRegisterRequest;
 import com.revature.skyrim.dtos.responses.Principal;
+import com.revature.skyrim.services.TokenService;
 import com.revature.skyrim.services.UserService;
 import com.revature.skyrim.utils.custom_exceptions.InvalidLoginException;
 import com.revature.skyrim.utils.custom_exceptions.InvalidRegisterException;
@@ -27,9 +28,11 @@ import com.revature.skyrim.utils.custom_exceptions.InvalidRegisterException;
 @RequestMapping("/auth")
 public class AuthController {
   private final UserService userService;
+  private final TokenService tokenService;
 
-  public AuthController(UserService userService) {
+  public AuthController(UserService userService, TokenService tokenService) {
     this.userService = userService;
+    this.tokenService = tokenService;
   }
 
   @PostMapping("/register")
@@ -67,10 +70,15 @@ public class AuthController {
   public ResponseEntity<Principal> login(@RequestBody NewLoginRequest req)
       throws NoSuchAlgorithmException, InvalidLoginException {
 
-    Optional<Principal> principal = userService.login(req);
+    Optional<Principal> principalOptional = userService.login(req);
 
-    if (principal.isPresent()) {
-      return ResponseEntity.ok(principal.get());
+    if (principalOptional.isPresent()) {
+      Principal principal = principalOptional.get();
+
+      String token = tokenService.generateToken(principal);
+      principal.setToken(token);
+
+      return ResponseEntity.ok(principal);
     } else {
       throw new InvalidLoginException("Invalid credentials");
     }

@@ -12,6 +12,12 @@ public class Principal {
   public Principal() {
   }
 
+  public Principal(long id, String username, Role role) {
+    this.id = id;
+    this.username = username;
+    this.role = role;
+  }
+
   public Principal(User user) {
     this.id = user.getId();
     this.username = user.getUsername();
