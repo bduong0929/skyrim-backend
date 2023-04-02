@@ -1,5 +1,7 @@
 package com.revature.skyrim.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.revature.skyrim.dtos.requests.NewCategoryRequest;
@@ -17,5 +19,9 @@ public class CategoryService {
   public void createCategory(NewCategoryRequest req) {
     Category createdCategory = new Category(req);
     categoryRepository.save(createdCategory);
+  }
+
+  public List<Category> getAllCategories() {
+    return categoryRepository.findAll();
   }
 }
