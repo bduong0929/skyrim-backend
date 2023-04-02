@@ -1,5 +1,7 @@
 package com.revature.skyrim.entities;
 
+import com.revature.skyrim.dtos.requests.NewCartItemRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +33,13 @@ public class CartItem {
   private Product product;
 
   public CartItem() {
+  }
+
+  public CartItem(NewCartItemRequest req, Cart cart, Product product) {
+    this.quantity = req.getQuantity();
+    this.price = req.getPrice();
+    this.cart = cart;
+    this.product = product;
   }
 
   public CartItem(int quantity, double price, Cart cart, Product product) {

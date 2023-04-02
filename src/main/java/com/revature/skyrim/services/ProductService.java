@@ -1,5 +1,7 @@
 package com.revature.skyrim.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.revature.skyrim.entities.Product;
@@ -13,7 +15,7 @@ public class ProductService {
     this.productRepository = productRepository;
   }
 
-  public Product getProductById(Long id) {
-    return productRepository.findById(id).get();
+  public Optional<Product> getProductById(Long id) {
+    return productRepository.findById(id);
   }
 }

@@ -2,6 +2,9 @@ package com.revature.skyrim.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,13 +24,19 @@ public class Cart {
   private Long id;
 
   @OneToOne
+  @JsonBackReference
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<CartItem> items;
 
   public Cart() {
+  }
+
+  public Cart(User user) {
+    this.user = user;
   }
 
   public Cart(Long id, User user, List<CartItem> items) {

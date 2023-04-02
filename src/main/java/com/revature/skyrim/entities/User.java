@@ -3,6 +3,8 @@ package com.revature.skyrim.entities;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,10 +35,11 @@ public class User {
   private byte[] salt;
 
   @ManyToOne
-  @JoinColumn(name = "role_id", nullable = false)
   @JsonBackReference
+  @JoinColumn(name = "role_id", nullable = false)
   private Role role;
 
+  @JsonManagedReference
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Cart cart;
 

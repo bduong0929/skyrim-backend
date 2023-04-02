@@ -1,30 +1,31 @@
 package com.revature.skyrim.dtos.responses;
 
-import com.revature.skyrim.entities.Role;
 import com.revature.skyrim.entities.User;
 
 public class Principal {
   private long id;
   private String username;
-  private Role role;
+
+  private String role;
+
   private String token;
 
   public Principal() {
   }
 
-  public Principal(long id, String username, Role role) {
+  public Principal(User user) {
+    this.id = user.getId();
+    this.username = user.getUsername();
+    this.role = user.getRole().getName();
+  }
+
+  public Principal(long id, String username, String role) {
     this.id = id;
     this.username = username;
     this.role = role;
   }
 
-  public Principal(User user) {
-    this.id = user.getId();
-    this.username = user.getUsername();
-    this.role = user.getRole();
-  }
-
-  public Principal(long id, String username, Role role, String token) {
+  public Principal(long id, String username, String role, String token) {
     this.id = id;
     this.username = username;
     this.role = role;
@@ -47,20 +48,20 @@ public class Principal {
     this.username = username;
   }
 
-  public Role getRole() {
-    return role;
-  }
-
-  public void setRole(Role role) {
-    this.role = role;
-  }
-
   public String getToken() {
     return token;
   }
 
   public void setToken(String token) {
     this.token = token;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
   }
 
   @Override

@@ -25,7 +25,14 @@ public class UserService {
     this.roleService = roleService;
   }
 
-  public void register(NewRegisterRequest req) throws NoSuchAlgorithmException {
+  /**
+   * Registers a new user
+   * 
+   * @param req new user request
+   * @return the id of the new user
+   * @throws NoSuchAlgorithmException
+   */
+  public User register(NewRegisterRequest req) throws NoSuchAlgorithmException {
     byte[] generateSalt = securityService.generateSalt();
     byte[] hashedPassword = securityService.hashingMethod(req.getPassword1(), generateSalt);
 
@@ -36,10 +43,17 @@ public class UserService {
       role = roleService.findRoleByName("DEFAULT");
     }
 
-    User createdUser = new User(req.getUsername(), hashedPassword, generateSalt, role.get());
-    userRepository.save(createdUser);
+    User creatUser = new User(req.getUsername(), hashedPassword, generateSalt, role.get());
+    return userRepository.save(creatUser);
   }
 
+  /**
+   * Logs in a user
+   * 
+   * @param req login request
+   * @return the principal of the user
+   * @throws NoSuchAlgorithmException
+   */
   public Optional<Principal> login(NewLoginRequest req) throws NoSuchAlgorithmException {
     Optional<User> userOptional = userRepository.findUserByUsername(req.getUsername());
 
@@ -55,19 +69,54 @@ public class UserService {
     return Optional.empty();
   }
 
+  /**
+   * Gets a user by id
+   * 
+   * @param userId the id of the user
+   * @return Optional of the user
+   */
+  public Optional<User> getUserById(Long userId) {
+    return userRepository.findById(userId);
+  }
+
+  /**
+   * Checks if a username is valid
+   * 
+   * @param username
+   * @return true if valid, false if not
+   */
   public boolean isValidUsername(String username) {
     return username.matches("^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$");
   }
 
+  /**
+   * Checks if a username is unique
+   * 
+   * @param username
+   * @return true if unique, false if not
+   */
   public boolean isUniqueUsername(String username) {
     return userRepository.findUsernameByUsername(username) == null;
   }
 
+  /**
+   * Checks if a password is valid
+   * 
+   * @param password
+   * @return true if valid, false if not
+   */
   public boolean isValidPassword(String password) {
     return password
         .matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
   }
 
+  /**
+   * Checks if two passwords match
+   * 
+   * @param password1
+   * @param password2
+   * @return true if they match, false if not
+   */
   public boolean doPasswordsMatch(String password1, String password2) {
     return password1.equals(password2);
   }

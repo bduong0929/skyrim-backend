@@ -9,7 +9,6 @@ import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 import com.revature.skyrim.dtos.responses.Principal;
-import com.revature.skyrim.entities.Role;
 import com.revature.skyrim.utils.JwtConfig;
 import com.revature.skyrim.utils.custom_exceptions.InvalidTokenException;
 
@@ -44,7 +43,7 @@ public class TokenService {
         .setIssuedAt(Date.from(now))
         .setExpiration(Date.from(expirationTime))
         .setSubject(subject.getUsername())
-        .claim("role", subject.getRole())
+        .claim("roleId", subject.getRole())
         .signWith(jwtConfig.getSignatureAlgorithm(),
             jwtConfig.getSigningKey());
 
@@ -65,6 +64,6 @@ public class TokenService {
         .getBody();
 
     return new Principal(Long.parseLong(claims.getId()), claims.getSubject(),
-        claims.get("role", Role.class));
+        claims.get("role", String.class));
   }
 }
