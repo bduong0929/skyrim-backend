@@ -1,5 +1,7 @@
 package com.revature.skyrim.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +24,9 @@ public class Product {
   @Column(name = "description", nullable = false)
   private String description;
 
+  @Column(name = "img", nullable = false)
+  private String img;
+
   @Column(name = "price", nullable = false)
   private double price;
 
@@ -29,15 +34,17 @@ public class Product {
   private int stock;
 
   @ManyToOne
+  @JsonBackReference
   @JoinColumn(name = "category_id", nullable = false)
   private Category category;
 
   public Product() {
   }
 
-  public Product(String name, String description, double price, int stock, Category category) {
+  public Product(String name, String description, String img, double price, int stock, Category category) {
     this.name = name;
     this.description = description;
+    this.img = img;
     this.price = price;
     this.stock = stock;
     this.category = category;
@@ -67,6 +74,14 @@ public class Product {
     this.description = description;
   }
 
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
+
   public double getPrice() {
     return price;
   }
@@ -93,7 +108,7 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
-        + stock + ", category=" + category + "]";
+    return "Product [category=" + category + ", description=" + description + ", id=" + id + ", img=" + img + ", name="
+        + name + ", price=" + price + ", stock=" + stock + "]";
   }
 }

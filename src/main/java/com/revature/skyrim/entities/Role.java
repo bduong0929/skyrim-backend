@@ -11,6 +11,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -22,6 +24,7 @@ public class Role {
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<User> users;
 

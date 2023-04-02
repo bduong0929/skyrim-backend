@@ -2,6 +2,7 @@ package com.revature.skyrim.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.revature.skyrim.dtos.requests.NewCategoryRequest;
 
 import jakarta.persistence.CascadeType;
@@ -24,6 +25,7 @@ public class Category {
   @Column(name = "name", nullable = false, unique = true)
   private String name;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private List<Product> products;
 

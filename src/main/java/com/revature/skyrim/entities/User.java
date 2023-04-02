@@ -2,6 +2,8 @@ package com.revature.skyrim.entities;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,6 +34,7 @@ public class User {
 
   @ManyToOne
   @JoinColumn(name = "role_id", nullable = false)
+  @JsonBackReference
   private Role role;
 
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
