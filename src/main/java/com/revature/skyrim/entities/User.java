@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "username", nullable = false, unique = true)
   private String username;
@@ -47,7 +47,7 @@ public class User {
     this.role = role;
   }
 
-  public User(long id, String username, byte[] password, byte[] salt, Role role, Cart cart) {
+  public User(Long id, String username, byte[] password, byte[] salt, Role role, Cart cart) {
     this.id = id;
     this.username = username;
     this.password = password;
@@ -56,11 +56,11 @@ public class User {
     this.cart = cart;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

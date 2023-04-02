@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
@@ -37,11 +37,11 @@ public class Order {
     this.user = user;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

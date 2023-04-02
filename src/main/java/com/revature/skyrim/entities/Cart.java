@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 public class Cart {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -30,17 +30,17 @@ public class Cart {
   public Cart() {
   }
 
-  public Cart(long id, User user, List<CartItem> items) {
+  public Cart(Long id, User user, List<CartItem> items) {
     this.id = id;
     this.user = user;
     this.items = items;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

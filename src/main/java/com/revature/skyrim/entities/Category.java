@@ -19,7 +19,7 @@ import jakarta.persistence.Table;
 public class Category {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;
@@ -34,17 +34,17 @@ public class Category {
     this.name = req.getName();
   }
 
-  public Category(long id, String name, List<Product> products) {
+  public Category(Long id, String name, List<Product> products) {
     this.id = id;
     this.name = name;
     this.products = products;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

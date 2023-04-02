@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @Column(name = "name", nullable = false, unique = true)
   private String name;
@@ -43,11 +43,11 @@ public class Product {
     this.category = category;
   }
 
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
