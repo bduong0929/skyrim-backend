@@ -1,5 +1,7 @@
 package com.revature.skyrim.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.revature.skyrim.dtos.requests.NewCartItemRequest;
 
 import jakarta.persistence.Column;
@@ -25,10 +27,12 @@ public class CartItem {
   private double price;
 
   @ManyToOne
+  @JsonBackReference
   @JoinColumn(name = "cart_id", nullable = false)
   private Cart cart;
 
   @ManyToOne
+  @JsonManagedReference
   @JoinColumn(name = "product_id", nullable = false)
   private Product product;
 

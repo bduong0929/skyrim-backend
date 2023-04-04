@@ -1,14 +1,20 @@
 package com.revature.skyrim.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +39,10 @@ public class Product {
   @Column(name = "stock", nullable = false)
   private int stock;
 
+  @JsonBackReference
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<CartItem> cartItems;
+
   @ManyToOne
   @JsonBackReference
   @JoinColumn(name = "category_id", nullable = false)
@@ -41,12 +51,14 @@ public class Product {
   public Product() {
   }
 
-  public Product(String name, String description, String img, double price, int stock, Category category) {
+  public Product(String name, String description, String img, double price, int stock, List<CartItem> cartItems,
+      Category category) {
     this.name = name;
     this.description = description;
     this.img = img;
     this.price = price;
     this.stock = stock;
+    this.cartItems = cartItems;
     this.category = category;
   }
 
@@ -98,6 +110,14 @@ public class Product {
     this.stock = stock;
   }
 
+  public List<CartItem> getCartItems() {
+    return cartItems;
+  }
+
+  public void setCartItems(List<CartItem> cartItems) {
+    this.cartItems = cartItems;
+  }
+
   public Category getCategory() {
     return category;
   }
@@ -108,7 +128,7 @@ public class Product {
 
   @Override
   public String toString() {
-    return "Product [category=" + category + ", description=" + description + ", id=" + id + ", img=" + img + ", name="
-        + name + ", price=" + price + ", stock=" + stock + "]";
+    return "Product [cartItems=" + cartItems + ", category=" + category + ", description=" + description + ", id=" + id
+        + ", img=" + img + ", name=" + name + ", price=" + price + ", stock=" + stock + "]";
   }
 }

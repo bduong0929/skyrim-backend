@@ -3,12 +3,15 @@ package com.revature.skyrim.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.skyrim.dtos.requests.NewCartItemRequest;
+import com.revature.skyrim.entities.CartItem;
 import com.revature.skyrim.services.CartItemService;
 
 @CrossOrigin
@@ -25,5 +28,10 @@ public class CartItemController {
   public ResponseEntity<?> createCartItem(@RequestBody NewCartItemRequest req) {
     cartItemService.createCartItem(req);
     return ResponseEntity.status(HttpStatus.CREATED).body("Cart Item created successfully!");
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<CartItem> getCartItemById(@PathVariable("id") Long id) {
+    return ResponseEntity.ok(cartItemService.getCartItemById(id).get());
   }
 }

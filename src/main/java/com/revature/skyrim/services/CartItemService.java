@@ -39,4 +39,8 @@ public class CartItemService {
     CartItem createdCartItem = new CartItem(req, cartOptional.get(), productOptional.get());
     return cartItemRepository.save(createdCartItem);
   }
+
+  public Optional<CartItem> getCartItemById(Long id) {
+    return cartItemRepository.findById(id);
+  }
 }
